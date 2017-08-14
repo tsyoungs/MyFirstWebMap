@@ -59,12 +59,12 @@
   
   // Create a marker first
 var geojsonMarkerOptions = {
-  radius: 8,
-  fillColor: "#ff7800",
+  radius: 12,
+  fillColor: "#99ff33",
   color: "#000",
   weight: 1,
   opacity: 1,
-  fillOpacity: 0.8
+  fillOpacity: 0.2
 };
 
 //create a empty geojson layer
@@ -73,6 +73,25 @@ var geojson = L.geoJson(null,{
     return L.circleMarker(latlng, geojsonMarkerOptions);
   }
 }).addTo(map);
+
+// new Http Request
+var xhttp = new XMLHttpRequest();
+
+// set the request method and data file
+xhttp.open('GET', encodeURI("All_BFRO_Reports_points.geojson"));
+
+//specify what must be done with the geojson data to the layer when request is succesfull
+xhttp.onload = function() {
+  if (xhttp.readyState === 4) {
+      // add the json data to the geojson layer we created before!
+      geojson.addData(JSON.parse(xhttp.responseText));
+    } else {
+      alert('Request failed.  Returned status of ' + xhttp.status);
+    }
+};
+
+// send the request
+xhttp.send();
   
 </script>
   </body>
